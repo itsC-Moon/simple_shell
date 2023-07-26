@@ -13,8 +13,8 @@
 #include <assert.h>
 /* #include <sys/socket.h> */
 #include <signal.h>
-#define DEBUG_STR(x) printf("%s=%s\n", #x, x);
-#define DEBUG_INT(x) printf("%s=%d\n", #x, x);
+#define DEBUG_STR(x) printf("%s=%s\n", #x, x)
+#define DEBUG_INT(x) printf("%s=%d\n", #x, x)
 #define READSIZE 64
 #define FREE_BUFFER 1
 #define KEEP_BUFFER 0
@@ -28,14 +28,24 @@
 #define SUP_LINE 13
 #define EXIT_SHELL -1
 extern char **environ;
-
+/**
+ * struct s_list - linken list
+ * @env: env value
+ * @next: next node
+ */
 typedef struct s_list
 {
 	char *env;
 	struct s_list *next;
 
 } s_list;
-typedef struct
+/**
+ * struct list - list
+ * @head: list begin
+ * @tail: list end
+ * @size: size
+ */
+typedef struct list
 {
 	s_list *head;
 	s_list *tail;
@@ -50,6 +60,11 @@ typedef struct
  * @env: environ to pass it to execve function
  * @env_size: size of environ
  * @exit_status: exit status still under test { :D }
+ * @line_count: exit status still under test { :D }
+ * @t_list: exit status still under test { :D }
+ * @hold: exit status still under test { :D }
+ * @tmp: exit status still under test { :D }
+ * @shell: exit status still under test { :D }
  */
 typedef struct shell_t
 {
@@ -65,7 +80,6 @@ typedef struct shell_t
 	int exit_status;
 	list *t_list;
 	char **hold;
-
 } shell_t;
 
 char *path(char *);
