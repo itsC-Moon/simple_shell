@@ -31,6 +31,7 @@ int print_error(shell_t *sh, int code)
 		return (error(sh, "command not found\n", 127));
 	else if (code == -2)
 		return (error(sh, "Permission denied\n", 126));
-	_puts("undefine error\n");
+	else if (code == -3)
+		return (error(sh, "Illegal number", 2));
 	return (-1);
 }

@@ -152,4 +152,5 @@ int print_error(shell_t *sh, int code);
 /* outils */
 char **_split_line(char *buffer, char *argv);
 int error_line(char *line, char *argv);
+int _atoi(char *s);
 #endif /*SHELL_H_*/

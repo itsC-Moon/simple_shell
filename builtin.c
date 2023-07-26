@@ -38,6 +38,11 @@ int builtin(shell_t *sh, int code, int *status)
 		break;
 	case 3:
 		*status = my_exit(sh);
+		if (*status == -1)
+		{
+			*status = 2;
+			return (-1);
+		}
 		return (-2);
 	case 4:
 		*status = my_export(sh);
@@ -57,9 +62,21 @@ int builtin(shell_t *sh, int code, int *status)
  */
 int my_exit(shell_t *sh)
 {
+	int code;
+
 	if (sh->argv[1])
 	{
-		return (atoi(sh->argv[1]));
+		code = _atoi(sh->argv[1]);
+		if (code == -1)
+		{
+			print_error(sh, -3);
+			_puts_fd(2, ": ");
+			_puts_fd(2, sh->argv[1]);
+			_putchar_fd(2, '\n');
+		}
+		else
+			return (code);
+		return (-1);
 	}
 	return (0);
 }

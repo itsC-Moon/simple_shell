@@ -8,8 +8,7 @@
 
 void shell_loop(shell_t *sh, char **argv)
 {
-	int error = 1;
-	int status;
+	int error = 1, status, exit_flag = 1;
 
 	while (error > 0)
 	{
@@ -17,11 +16,8 @@ void shell_loop(shell_t *sh, char **argv)
 		/* DEBUG_INT(error) */
 		if (error == FILE_ERROR)
 			break;
-		else if (error == SUP_LINE)
+		else if (error == SUP_LINE || error == LINE_ERROR)
 			continue;
-		else if (error == LINE_ERROR)
-			continue;
-
 		if (trim(sh->buffer) == 1)
 		{
 			sh->argv = strtow(sh->buffer, ' ', &sh->argc);
@@ -31,7 +27,10 @@ void shell_loop(shell_t *sh, char **argv)
 				if (status != -1)
 				{
 					if (builtin(sh, status, &(sh->exit_status)) == -2)
+					{
+						exit_flag = 0;
 						break;
+					}
 				}
 				else
 				{
@@ -46,7 +45,7 @@ void shell_loop(shell_t *sh, char **argv)
 		}
 	}
 	Sh_free(sh);
-	if (isatty(0))
+	if (isatty(0) && exit_flag)
 		_putchar('\n');
 }
 
